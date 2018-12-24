@@ -1,9 +1,7 @@
 const fs = require('fs')
 
 const imgExp = /\.png$/
-const upperCaseExp = /[A-F]/
-const OxExp = /^0x/
-const addressExp = /[0-9a-f]{40}$/i
+const addressExp = /^(0x)?[0-9a-f]{40}$/i
 
 const exitWithMsg = (msg) => {
     console.log(msg)
@@ -12,27 +10,18 @@ const exitWithMsg = (msg) => {
 
 const isAddress = address => addressExp.test(address)
 
-const remoteExtension = string => string.replace(/.png/g, '')
-
 const imageFileNames = fs.readdirSync('./images')
 
-imageFileNames.forEach(image => {
-    const address = remoteExtension(image)
-
+imageFileNames.forEach(image => { 
     if (!imgExp.test(image)) {
         exitWithMsg(`${image} image must be png`)
     } 
-    
-    if (upperCaseExp.test(address)) {
-        exitWithMsg(`${address} image must be in lowercase`)
-    }
 
-    if (!OxExp.test(address) && !address.startsWith('ethereum')) {
-        exitWithMsg(`'${address}' must start with 0x`)
-    }
-
-    if (!isAddress(address) && !address.startsWith('ethereum')) {
-        exitWithMsg(`${address} image must have length 42 instead have ${address.length}`)
+    if (image) {
+        const address =  image.replace(/.png/g, '')
+        if (!addressExp.test(address) && !image.startsWith('ethereum')) {
+            exitWithMsg(`${address} image must have length 42 instead have ${address.length} or start with '0x'`)
+        }
     }
 })
 

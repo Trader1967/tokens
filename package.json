@@ -4,8 +4,7 @@
   "description": "Contract and coin addresses consumed by Trust Wallet",
   "main": "index.js",
   "scripts": {
-    "test": "npm run pre-test && node ./test/index.js",
-    "pre-test": "find . -name '.DS_Store' -type f -delete"
+    "test": "node ./test/index.js"
   },
   "repository": {
     "type": "git",
